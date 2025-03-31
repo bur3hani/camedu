@@ -11,6 +11,15 @@ st.set_page_config(page_title="Cambodia Education Dashboard", layout="wide")
 def load_data():
     url = "https://raw.githubusercontent.com/bur3hani/camedu/main/cleaned_cambodia_education_2020_2021.csv"
     df = pd.read_csv(url)
+
+    # Ensure required computed fields exist
+    if 'Student–Teacher Ratio' not in df.columns:
+        df['Student–Teacher Ratio'] = (df['Total Enrolment'] / df['Total Teachers']).round(2)
+    if '% Girls Enrolled' not in df.columns:
+        df['% Girls Enrolled'] = (df['Girls Enrolled'] / df['Total Enrolment'] * 100).round(2)
+    if '% Female Teachers' not in df.columns:
+        df['% Female Teachers'] = (df['Female Teachers'] / df['Total Teachers'] * 100).round(2)
+
     return df
 
 # Load data
